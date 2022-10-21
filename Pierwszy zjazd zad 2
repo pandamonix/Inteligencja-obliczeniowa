@@ -1,0 +1,20 @@
+import numpy as NP
+A=[3, 8, 9, 10, 12]
+B=[8, 7, 7, 5, 6]
+#a)
+suma = NP.add(A,B)
+iloczyn=NP.cross(A, B)
+#b)
+iloczyns=NP.dot(A, B)
+#c)
+NP.sqrt(NP.sum((A-B) ** 2))
+#d)
+nowy=NP.random.rand(50,100)
+#e)
+maks=NP.max(nowy)
+mini=NP.min(nowy)
+odchylenie=NP.std(nowy)
+#f)
+norm = NP.linalg.norm(nowy)
+#g)
+st
