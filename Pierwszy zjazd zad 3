@@ -1,0 +1,9 @@
+import csv
+import matplotlib.pyplot as plt
+import pandas as pd 
+miasta = pd.read_csv("miasta.csv") 
+for row in rows:
+    for col in row:
+        print("%10s"%col,end=" "),
+    print('\n')
+    
