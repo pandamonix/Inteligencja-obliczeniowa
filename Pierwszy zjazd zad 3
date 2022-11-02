@@ -1,4 +1,3 @@
-import pandas as pd
-miasta= pd.read_csv("miasta.csv")
-print(miasta.values)
-
+import pandas
+miasta = pandas.read_csv('miasta.csv')
+print(miasta)
