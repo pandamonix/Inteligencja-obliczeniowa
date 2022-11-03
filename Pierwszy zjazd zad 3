@@ -1,3 +1,10 @@
+#a
 import pandas
 miasta = pandas.read_csv('miasta.csv')
 print(miasta)
+#b
+from csv import writer
+nowe=[2010,460,555,405]
+with open('miasta.csv', 'a', newline='') as f_object:
+    writer_object = writer(f_object)
+    writer_object.writerow(nowe)
