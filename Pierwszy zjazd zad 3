@@ -8,3 +8,16 @@ nowe=[2010,460,555,405]
 with open('miasta.csv', 'a', newline='') as f_object:
     writer_object = writer(f_object)
     writer_object.writerow(nowe)
+#c
+import pandas as pd
+from matplotlib import pyplot as plt
+plt.rcParams["figure.figsize"] = [7.00, 3.50]
+plt.rcParams["figure.autolayout"] = True
+columns = ["Rok", "Gdansk"]
+df = pd.read_csv("miasta.csv", usecols=columns)
+plt.plot(df.Rok, df.Gdansk, 'o-r')
+plt.title("Liczba ludności w Gdańsku")
+plt.xlabel("Lata")
+plt.ylabel("Liczba ludności (w tys.)")
+plt.show()
+#d
