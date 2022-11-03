@@ -21,3 +21,17 @@ plt.xlabel("Lata")
 plt.ylabel("Liczba ludności (w tys.)")
 plt.show()
 #d
+import pandas as pd
+from matplotlib import pyplot as plt
+
+# Set the figure size
+plt.rcParams["figure.figsize"] = [9.00, 3.50]
+plt.rcParams["figure.autolayout"] = True
+
+columns = ['Rok', 'Gdansk', 'Poznan', 'Szczecin']
+df = pd.read_csv("miasta.csv", usecols=columns)
+df.set_index('Rok').plot()
+plt.title("Liczba ludności w Polsce")
+plt.xlabel("Lata")
+plt.ylabel("Liczba ludności (w tys.)")
+plt.show()
