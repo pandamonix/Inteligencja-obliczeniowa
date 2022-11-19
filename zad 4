@@ -1,11 +1,28 @@
 import pyswarms as ps
-from pyswarms.utils.functions import single_obj as fx
+import math
+import numpy as np
+
+n_inputs = 6
+n_hidden = 20
+n_classes = 3
+
+
+def endurance(p):
+    x = p.reshape((n_inputs, n_hidden))
+    y = p.reshape((n_hidden,))
+    z = p.reshape((n_hidden, n_classes))
+    u = p.reshape((n_hidden,))
+    v = p.reshape((n_hidden, n_classes))
+    w = p.reshape((n_classes,))
+    return -math.exp(-2*(y-math.sin(x))**2)+math.sin(z*u)+math.cos(v*w)
+
+
 
 options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
-optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=6,
-options=options)
-optimizer.optimize(fx.sphere, iters=1000)
-x_max = [1, 1]
-x_min = [0, 0]
+x_max = [np.ones(6)]
+x_min = [np.zeros(6)]
 my_bounds = (x_min, x_max)
 bounds=my_bounds
+optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=6,
+options=options)
+optimizer.optimize(endurance, iters=1000)
