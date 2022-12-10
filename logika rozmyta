@@ -1,0 +1,50 @@
+from simpful import *
+import matplotlib.pyplot as plt
+
+FS = FuzzySystem()
+
+O1 = TrapezoidFuzzySet(0,0,20,45,   term="m")
+O2 = TrapezoidFuzzySet(20,45,105,130,  term="s")
+O3 = TrapezoidFuzzySet(105,130,140,140, term="d")
+FS.add_linguistic_variable("odl", LinguisticVariable([O1, O2, O3], universe_of_discourse=[0,140]))
+
+O1 = TrapezoidFuzzySet(0, 0, 15, 65,   term="m")
+O2 = TriangleFuzzySet(15, 65, 115,  term="s")
+O3 = TrapezoidFuzzySet(65, 115, 120, 120, term="d")
+FS.add_linguistic_variable("spd", LinguisticVariable([O1, O2, O3], universe_of_discourse=[0,120]))
+
+O1 = TrapezoidFuzzySet(-1,-1,-0.4, 0, term="DS")
+O2 = TriangleFuzzySet(-0.4,0,0.1,  term="MS")
+O3 = TriangleFuzzySet(-0.1,0,0.4, term="MP")
+O4 = TrapezoidFuzzySet(0, 0.4,1, 1,term="DP")
+FS.add_linguistic_variable("acc", LinguisticVariable([O1, O2, O3, O4], universe_of_discourse=[-1,1]))
+
+FS.add_rules([
+	"IF (odl IS m) AND (spd IS m) THEN (acc IS DS)",
+	"IF (odl IS s) AND (spd IS m) THEN (acc IS MS)",
+	"IF (odl IS d) AND (spd IS m) THEN (acc IS MS)",
+	"IF (odl IS m) AND (spd IS s) THEN (acc IS DP)",
+	"IF (odl IS s) AND (spd IS s) THEN (acc IS MS)",
+	"IF (odl IS d) AND (spd IS s) THEN (acc IS MS)",
+	"IF (odl IS m) AND (spd IS d) THEN (acc IS MP)",
+	"IF (odl IS s) AND (spd IS d) THEN (acc IS DS)",
+	"IF (odl IS d) AND (spd IS d) THEN (acc IS MS)",
+	])
+FS.plot_variable("odl")
+FS.plot_variable("spd")
+FS.plot_variable("acc")
+
+FS.set_variable("odl", 30)
+FS.set_variable("spd", 50)
+tip = FS.inference()
+print(tip)
+
+FS.set_variable("odl", 100)
+FS.set_variable("spd", 50)
+tip = FS.inference()
+print(tip)
+
+FS.set_variable("odl", 30)
+FS.set_variable("spd", 65)
+tip = FS.inference()
+print(tip)
