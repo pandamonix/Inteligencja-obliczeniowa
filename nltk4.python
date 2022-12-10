@@ -1,0 +1,23 @@
+import nltk
+#nltk.download('punkt')
+#nltk.download('averaged_perceptron_tagger')
+from nltk import pos_tag, word_tokenize, RegexpParser
+
+sample_text = "The scale of the challenge is undeniably vast. " \
+              "Some might question whether the World Cup as we know it now – with teams, fans and officials flying long distances and massive infrastructure development – " \
+              "can ever become sustainable. " \
+              "Would the basic model of the event need to change to become greener, and if so, what might that look like?"
+
+tagged = pos_tag(word_tokenize(sample_text))
+
+
+chunker = RegexpParser("""
+                    NP: {<DT>?<JJ>*<NN>} 
+                    P: {<IN>}            
+                    V: {<V.*>}           
+                    PP: {<p> <NP>}       
+                    VP: {<V> <NP|PP>*}  
+                    """)
+
+output = chunker.parse(tagged)
+output.draw()
