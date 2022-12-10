@@ -1,0 +1,12 @@
+#import os
+import pandas as pd
+import snscrape.modules.twitter as sntwitter
+import itertools
+
+"""os.system("snscrape --jsonl --max-results 100 twitter-hashtag 'skijumping'> skijumping.json")
+tweets_df = pd.read_json('skijumping.json', lines=True)
+print(tweets_df.content)"""
+
+df_city = pd.DataFrame(itertools.islice(sntwitter.TwitterSearchScraper(
+    'since:2022-11-10 until:2022-12-10 near:"Gdańsk" within:10km').get_items(), 50))[['date', 'content']]
+print(df_city)
