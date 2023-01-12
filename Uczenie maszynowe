@@ -1,0 +1,119 @@
+#zad2
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+df = pd.read_csv("iris.csv")
+(train_set, test_set) = train_test_split(df.values, train_size=0.7, random_state=18)
+
+def classify_iris(sl, sw, pl, pw):
+    if sl > 4 and pl < 2 and pw < 1:
+        return("Setosa")
+    elif pl >= 4.5:
+        return("Virginica")
+    else:
+        return("Versicolor")
+
+good_predictions = 0
+len = test_set.shape[0]
+for i in range(len):
+    if classify_iris(test_set[i, 0], test_set[i, 1], test_set[i, 2], test_set[i, 3]) == test_set[i, 4]:
+        good_predictions = good_predictions + 1
+
+print(good_predictions)
+print(good_predictions/len*100, "%")
+
+#zad3
+from sklearn.model_selection import train_test_split
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import confusion_matrix
+
+# Wczytanie bazy danych irysów
+df = pd.read_csv("iris.csv")
+
+# Podział bazy danych na zbiór treningowy i testowy
+train_set, test_set = train_test_split(df, train_size=0.7, random_state=0)
+
+tree = DecisionTreeClassifier()
+
+# Wyodrębnienie etykiet i inputów z zbioru treningowego
+X_train = train_set.drop("variety", axis=1)
+y_train = train_set["variety"]
+
+#Trenowanie drzewa decyzyjnego
+tree.fit(X_train, y_train)
+
+# Wyodrębnienie etykiet i inputów z zbioru testowego
+X_test = test_set.drop("variety", axis=1)
+y_test = test_set["variety"]
+
+# Sprawdzenie dokładności klasyfikatora za pomocą funkcji score
+accuracy = tree.score(X_test, y_test)
+print("Accuracy (score): ", accuracy)
+
+# Sprawdzenie dokładności klasyfikatora za pomocą funkcji predict
+y_pred = tree.predict(X_test)
+accuracy = sum(y_test == y_pred) / len(y_test)
+print("Accuracy (predict): ", accuracy)
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+#zad4
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+df = pd.read_csv("iris.csv")
+# Podzielenie bazy danych na zbiór treningowy i testowy
+X_train, X_test, y_train, y_test = train_test_split(df.drop("variety", axis=1), df["variety"], test_size=0.3, random_state=42)
+
+# Dla k=3
+knn = KNeighborsClassifier(n_neighbors=3)
+knn.fit(X_train, y_train)
+
+# Ewaluacja na zbiorze testowym
+y_pred = knn.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+conf_mat = confusion_matrix(y_test, y_pred)
+print("Accuracy (k=3): ", accuracy)
+print("Confusion matrix (k=3): \n", conf_mat)
+
+# Dla k=5
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train, y_train)
+
+# Ewaluacja na zbiorze testowym
+y_pred = knn.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+conf_mat = confusion_matrix(y_test, y_pred)
+print("Accuracy (k=5): ", accuracy)
+print("Confusion matrix (k=5): \n", conf_mat)
+
+# Dla k=11
+knn = KNeighborsClassifier(n_neighbors=11)
+knn.fit(X_train, y_train)
+
+# Ewaluacja na zbiorze testowym
+y_pred = knn.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+conf_mat = confusion_matrix(y_test, y_pred)
+print("Accuracy (k=11): ", accuracy)
+print("Confusion matrix (k=11): \n", conf_mat)
+
+#zad5
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+df = pd.read_csv("iris.csv")
+X_train, X_test, y_train, y_test = train_test_split(df.drop("variety", axis=1), df["variety"], test_size=0.3, random_state=20)
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+y_pred = gnb.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+conf_mat = confusion_matrix(y_test, y_pred)
+print("Accuracy: ", accuracy)
+print("Confusion matrix: \n", conf_mat)
