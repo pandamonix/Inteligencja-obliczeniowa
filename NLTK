@@ -1,0 +1,33 @@
+#5 
+
+import nltk
+nltk.download('wordnet')
+from nltk.corpus import wordnet
+
+
+def wordnet_info(word):
+    # Pobranie synonimów dla słowa
+    synonyms = []
+    for syn in wordnet.synsets(word):
+        for lemma in syn.lemmas():
+            synonyms.append(lemma.name())
+    # Wypisanie synonimów
+    print("Synonimy: ", synonyms)
+
+    # Pobranie definicji słowa
+    definition = wordnet.synset(word + '.n.01').definition()
+    # Wypisanie definicji
+    print("Definicja: ", definition)
+
+    # Pobranie przykładów zdań z hiperonimami i hiponimami
+    examples = []
+    for syn in wordnet.synsets(word):
+        for hyp in syn.hypernyms() + syn.hyponyms():
+            examples.append(word + " is a " + hyp.lemmas()[0].name())
+    # Wypisanie przykładów
+    print("Przykłady zdań: ")
+    for example in examples[:2]:
+        print(example)
+
+print(wordnet_info("house"))
+
