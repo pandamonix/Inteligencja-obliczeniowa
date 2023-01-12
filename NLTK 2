@@ -1,0 +1,38 @@
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import nltk
+nltk.download('punkt')
+nltk.download('vader_lexicon')
+
+sentences = ["VADER is smart, handsome, and funny.", # positive sentence example
+   "VADER is smart, handsome, and funny!", # punctuation emphasis handled correctly (sentiment intensity adjusted)
+   "VADER is very smart, handsome, and funny.",  # booster words handled correctly (sentiment intensity adjusted)
+   "VADER is VERY SMART, handsome, and FUNNY.",  # emphasis for ALLCAPS handled
+   "VADER is VERY SMART, handsome, and FUNNY!!!",# combination of signals - VADER appropriately adjusts intensity
+   "VADER is VERY SMART, really handsome, and INCREDIBLY FUNNY!!!",# booster words & punctuation make this close to ceiling for score
+   "The book was good.",         # positive sentence
+   "The book was kind of good.", # qualified positive sentence is handled correctly (intensity adjusted)
+   "The plot was good, but the characters are uncompelling and the dialog is not great.", # mixed negation sentence
+   "A really bad, horrible book.",       # negative sentence with booster words
+   "At least it isn't a horrible book.", # negated negative sentence with contraction
+   ":) and :D",     # emoticons handled
+   "",              # an empty string is correctly handled
+   "Today sux",     #  negative slang handled
+   "Today sux!",    #  negative slang with punctuation emphasis handled
+   "Today SUX!",    #  negative slang with capitalization emphasis
+   "Today kinda sux! But I'll get by, lol" # mixed sentiment example with slang and constrastive conjunction "but"
+]
+paragraph = "It was one of the worst movies I've seen, despite good reviews. \
+Unbelievably bad acting!! Poor direction. VERY poor production. \
+The movie was bad. Very bad movie. VERY bad movie. VERY BAD movie. VERY BAD movie!"
+
+from nltk import tokenize
+lines_list = tokenize.sent_tokenize(paragraph)
+sentences.extend(lines_list)
+
+positive = "Clean, comfortable and great spot on the waterfront. Short walk to the centre and train station to get around the rest of the coast. Staff friendly, restaurant food selection good for breakfast and dinner. Bar nice to sit outside during the summer days and evenings."
+negative = "Wow, what a bad experience. Total lack of any customer care values; I never thought I would be treated without any respect in a 4**** hotel of Marriott brand. Long story short I was not let in to the breakfast area by the “check-in person” because of some misunderstand (he claimed that I have not an “opened account” even though 400 euros were blocked on my Credit Card during the check-in). Sure, errors happen but the issue was a lack of any willingness from the employee to fix. He did not care repeating all the time “you pay or not?!”. The way he was talking to me was shocking as his behaviour was slightly worse than boorish. I have no idea how someone like this could get any job in a customer facing environment (especially in hospitality). Dreadful experience. Will not stay there again. On another note: I asked for a feather less bedding I was assured it was provided and…. got feather pillows."
+sid = SentimentIntensityAnalyzer()
+print(sid.polarity_scores(positive))
+print(sid.polarity_scores(negative))
+
+
